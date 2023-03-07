@@ -14,10 +14,24 @@ const userSchema = new Schema(
       type: String,
       required: [true, "Password is required."],
     },
-    name: {
+    username: {
       type: String,
       required: [true, "Name is required."],
+      unique: true,
+      trim: true
     },
+    posts: [{
+      type: Schema.Types.ObjectId,
+      ref: "Post"
+    }],
+    isAdmin: {
+      type: Boolean,
+      default: false
+    },
+    isCompany: {
+      type: Boolean,
+      default: false
+    }
   },
   {
     // this second object adds extra properties: `createdAt` and `updatedAt`
