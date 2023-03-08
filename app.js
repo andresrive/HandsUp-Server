@@ -21,10 +21,10 @@ app.use("/api", indexRoutes);
 const authRoutes = require("./routes/auth.routes");
 app.use("/api/auth", authRoutes);
 
-const planRoutes = require("./routes/plans.route")
+const planRoutes = require("./routes/plans.routes")
 app.use("/api/plans", planRoutes)
 
-const packRoutes = require("./routes/packs.routes")
+const packRoutes = require("./routes/pack.routes")
 app.use("/api/packs", packRoutes)
 
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes

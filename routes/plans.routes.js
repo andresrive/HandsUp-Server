@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const User = require("../models/Plan.model")
-const Post = require("../models/Plan.model")
+
+const Plan = require("../models/Plan.model")
 
 router.get("/", (req, res, next) => {
     Post.find()
@@ -32,6 +32,7 @@ router.get("/:plansId", (req, res, next) => {
 })
 
 router.put("/:plansId/edit", (req, res, next) => {
+    
     res.json("Edit a plan")
 })
 
