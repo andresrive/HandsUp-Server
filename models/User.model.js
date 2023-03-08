@@ -20,9 +20,13 @@ const userSchema = new Schema(
       unique: true,
       trim: true
     },
-    posts: [{
+    plansMade: [{   //que ha hecho
       type: Schema.Types.ObjectId,
-      ref: "Post"
+      ref: "Plan"
+    }],
+    packsMade: [{   //que ha hecho
+      type: Schema.Types.ObjectId,
+      ref: "Plan"
     }],
     isAdmin: {
       type: Boolean,
@@ -31,7 +35,15 @@ const userSchema = new Schema(
     isCompany: {
       type: Boolean,
       default: false
-    }
+    },
+    plansEnrolled: [{  //a los que esta apuntado
+      type: Schema.Types.ObjectId,
+      ref: "Plan"
+    }],
+    packsEnrolled: [{  //a los que esta apuntado
+      type: Schema.Types.ObjectId,
+      ref: "Pack"
+    }]
   },
   {
     // this second object adds extra properties: `createdAt` and `updatedAt`

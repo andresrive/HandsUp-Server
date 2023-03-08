@@ -21,7 +21,7 @@ app.use("/api", indexRoutes);
 const authRoutes = require("./routes/auth.routes");
 app.use("/api/auth", authRoutes);
 
-const planRoutes = require("./routes/plans.route")
+const planRoutes = require("./routes/plans.routes")
 app.use("/api/plans", planRoutes)
 
 const packRoutes = require("./routes/packs.routes")
