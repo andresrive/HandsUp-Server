@@ -8,10 +8,14 @@ const saltRounds = 10;
 
 
 router.post("/signup", (req, res, next) => {
-  const { email, password, name } = req.body;
+  const { email, password, username, passwordRepeat } = req.body;
 
-  if (email === "" || password === "" || name === "") {
+  if (email === "" || password === "" || username === "" || passwordRepeat === "") {
     res.status(400).json({ message: "Provide email, password and name" });
+    return;
+  }
+  if (password === passwordRepeat) {
+    res.status(400).json({ message: "Passwords must be equal." });
     return;
   }
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -27,7 +31,7 @@ router.post("/signup", (req, res, next) => {
     });
     return;
   }
-  User.findOne({ email })
+  User.findOne({ username })
     .then((foundUser) => {
       if (foundUser) {
         res.status(400).json({ message: "User already exists." });
@@ -35,11 +39,11 @@ router.post("/signup", (req, res, next) => {
       }
       const salt = bcrypt.genSaltSync(saltRounds);
       const hashedPassword = bcrypt.hashSync(password, salt);
-      return User.create({ email, password: hashedPassword, name });
+      return User.create({ email, password: hashedPassword, username });
     })
     .then((createdUser) => {
-      const { email, name, _id } = createdUser;
-      const user = { email, name, _id };
+      const { email, username, _id } = createdUser;
+      const user = { email, username, _id };
       res.status(201).json({ user: user });
     })
     .catch((err) => next(err)); 
@@ -61,8 +65,8 @@ router.post("/login", (req, res, next) => {
       const passwordCorrect = bcrypt.compareSync(password, foundUser.password);
 
       if (passwordCorrect) {
-        const { _id, email, name } = foundUser;
-        const payload = { _id, email, name };
+        const { _id, email, username } = foundUser;
+        const payload = { _id, email, username };
         const authToken = jwt.sign(payload, process.env.TOKEN_SECRET, {
           algorithm: "HS256",
           expiresIn: "6h",
