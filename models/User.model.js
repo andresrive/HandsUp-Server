@@ -20,13 +20,17 @@ const userSchema = new Schema(
       unique: true,
       trim: true
     },
+    avatar: {
+      type: String,
+      required: true
+    },
     plansMade: [{   //que ha hecho
       type: Schema.Types.ObjectId,
       ref: "Plan"
     }],
     packsMade: [{   //que ha hecho
       type: Schema.Types.ObjectId,
-      ref: "Plan"
+      ref: "Pack"
     }],
     isAdmin: {
       type: Boolean,

@@ -11,10 +11,10 @@ const packSchema = new Schema(
             type: String,
             required: [true, "Title is required."]
         },
-        images: {
+        images: [{
             type: String,
             required: true
-        },
+        }],
         date: {
             type: Date,
             default: Date.now,
