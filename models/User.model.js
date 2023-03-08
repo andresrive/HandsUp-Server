@@ -20,6 +20,7 @@ const userSchema = new Schema(
       unique: true,
       trim: true
     },
+<<<<<<< HEAD
     avatar: {
       type: String,
       required: true
@@ -31,6 +32,11 @@ const userSchema = new Schema(
     packsMade: [{   //que ha hecho
       type: Schema.Types.ObjectId,
       ref: "Pack"
+=======
+    posts: [{
+      type: Schema.Types.ObjectId,
+      ref: "Post"
+>>>>>>> aeb7e7c4e4cf62e5b11c164e80a404dd3aa0aa9e
     }],
     isAdmin: {
       type: Boolean,
@@ -39,15 +45,7 @@ const userSchema = new Schema(
     isCompany: {
       type: Boolean,
       default: false
-    },
-    plansEnrolled: [{  //a los que esta apuntado
-      type: Schema.Types.ObjectId,
-      ref: "Plan"
-    }],
-    packsEnrolled: [{  //a los que esta apuntado
-      type: Schema.Types.ObjectId,
-      ref: "Pack"
-    }]
+    }
   },
   {
     // this second object adds extra properties: `createdAt` and `updatedAt`

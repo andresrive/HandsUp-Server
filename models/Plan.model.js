@@ -24,10 +24,10 @@ const planSchema = new Schema(
             type: Schema.Types.ObjectId,
             ref: "User"
         },
-        userList: [{
-            type: Schema.Types.ObjectId,
-            ref: "User"
-        }]
+        isFromCompany: {
+            type: Boolean,
+            default: false
+        }
     },
     {
         // this second object adds extra properties: `createdAt` and `updatedAt`
