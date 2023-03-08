@@ -20,7 +20,6 @@ const userSchema = new Schema(
       unique: true,
       trim: true
     },
-<<<<<<< HEAD
     avatar: {
       type: String,
       required: true
@@ -32,11 +31,6 @@ const userSchema = new Schema(
     packsMade: [{   //que ha hecho
       type: Schema.Types.ObjectId,
       ref: "Pack"
-=======
-    posts: [{
-      type: Schema.Types.ObjectId,
-      ref: "Post"
->>>>>>> aeb7e7c4e4cf62e5b11c164e80a404dd3aa0aa9e
     }],
     isAdmin: {
       type: Boolean,
