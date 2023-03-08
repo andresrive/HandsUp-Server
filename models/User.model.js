@@ -39,7 +39,15 @@ const userSchema = new Schema(
     isCompany: {
       type: Boolean,
       default: false
-    }
+    },
+    plansEnrolled: [{  //a los que esta apuntado
+      type: Schema.Types.ObjectId,
+      ref: "Plan"
+    }],
+    packsEnrolled: [{  //a los que esta apuntado
+      type: Schema.Types.ObjectId,
+      ref: "Pack"
+    }]
   },
   {
     // this second object adds extra properties: `createdAt` and `updatedAt`
