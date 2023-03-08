@@ -1,7 +1,7 @@
 const { Schema, model } = require("mongoose");
 
 // TODO: Please make sure you edit the User model to whatever makes sense in this case
-const PlanSchema = new Schema(
+const planSchema = new Schema(
     {
         title: {
             type: String,
@@ -11,10 +11,10 @@ const PlanSchema = new Schema(
             type: String,
             required: [true, "Title is required."]
         },
-        images: {
+        images: [{
             type: String,
             required: true
-        },
+        }],
         date: {
             type: Date,
             default: Date.now,
@@ -24,10 +24,10 @@ const PlanSchema = new Schema(
             type: Schema.Types.ObjectId,
             ref: "User"
         },
-        isFromCompany: {
-            type: Boolean,
-            default: false
-        }
+        userList: [{
+            type: Schema.Types.ObjectId,
+            ref: "User"
+        }]
     },
     {
         // this second object adds extra properties: `createdAt` and `updatedAt`
@@ -35,4 +35,4 @@ const PlanSchema = new Schema(
     }
 );
 
-module.exports = model("Plan", PlanSchema);
+module.exports = model("Plan", planSchema);
