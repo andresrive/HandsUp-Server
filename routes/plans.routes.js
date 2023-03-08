@@ -1,7 +1,9 @@
 const express = require("express");
 const router = express.Router();
 
-const Plan = require("../models/Plan.model")
+const Plan = require("../models/Plan.model");
+const User = require("../models/User.model");
+const Pack = require("../models/Pack.model");
 
 router.get("/", (req, res, next) => {
     Post.find()
@@ -33,7 +35,6 @@ router.get("/:plansId", (req, res, next) => {
 })
 
 router.put("/:plansId/edit", (req, res, next) => {
-
     const { title, description, images, date } = req.body
 
     const { plansId } = req.params
@@ -41,6 +42,7 @@ router.put("/:plansId/edit", (req, res, next) => {
     Plan.findByIdAndUpdate(plansId, { title, description, images, date }, { new: true })
         .then(result => res.json(result))
         .catch(err => next(err))
+
 })
 
 router.delete("/:plansId/delete", (req, res, next) => {

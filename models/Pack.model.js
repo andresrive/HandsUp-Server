@@ -31,7 +31,15 @@ const packSchema = new Schema(
         price: {
             type: Number,
             required: true,
-        }
+        },
+        userList: [{
+            type: Schema.Types.ObjectId,
+            ref: "User"
+        }],
+        author: {
+            type: Schema.Types.ObjectId,
+            ref: "User"
+        },
     },
     {
         // this second object adds extra properties: `createdAt` and `updatedAt`
