@@ -4,8 +4,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User.model");
 const { isAuthenticated } = require("../middleware/jwt.middleware.js");
-const saltRounds = 10;
-
+const saltRounds = 12;
 
 router.post("/signup", (req, res, next) => {
   const { email, password, username, passwordRepeat } = req.body;
