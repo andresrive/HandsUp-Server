@@ -22,7 +22,6 @@ const userSchema = new Schema(
     },
     avatar: {
       type: String,
-      required: true
     },
     plansMade: [{   //que ha hecho
       type: Schema.Types.ObjectId,

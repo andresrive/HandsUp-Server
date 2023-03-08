@@ -9,7 +9,7 @@ const planSchema = new Schema(
         },
         description: {
             type: String,
-            required: [true, "Title is required."]
+            required: [true, "Description is required."]
         },
         images: [{
             type: String,
