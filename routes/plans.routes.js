@@ -32,6 +32,7 @@ router.get("/:plansId", (req, res, next) => {
         .populate("author")
         .then(result => res.json(result))
         .catch(err => next(err))
+
 })
 
 router.put("/:plansId/edit", (req, res, next) => {
@@ -42,7 +43,7 @@ router.put("/:plansId/edit", (req, res, next) => {
     Plan.findByIdAndUpdate(plansId, { title, description, images, date }, { new: true })
         .then(result => res.json(result))
         .catch(err => next(err))
-    
+
 })
 
 router.delete("/:plansId/delete", (req, res, next) => {
