@@ -3,10 +3,10 @@ const router = express.Router();
 
 const Plan = require("../models/Plan.model");
 const User = require("../models/User.model");
-const Pack = require("../models/Pack.model");
+
 
 router.get("/", (req, res, next) => {
-    Post.find()
+    Plan.find()
         .then(results => res.json(results))
         .catch(err => next(err))
 });
@@ -15,10 +15,10 @@ router.post("/create", (req, res, next) => {
 
     const { title, description, images, date } = req.body
 
-    Post.create({ title, description, images, date })
+    Plan.create({ title, description, images, date })
         .then(response => {
             console.log(response)
-            res.json({ result: ok })
+            res.json({ result: "ok" })
         })
         .catch(err => next(err))
 
