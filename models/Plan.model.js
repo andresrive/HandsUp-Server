@@ -17,14 +17,17 @@ const planSchema = new Schema(
         }],
         date: {
             type: Date,
-            default: Date.now,
+            required: true
+        },
+        destination: {
+            type: String,
             required: true
         },
         author: {
             type: Schema.Types.ObjectId,
             ref: "User"
         },
-        userList: [{
+        participants: [{
             type: Schema.Types.ObjectId,
             ref: "User"
         }]
