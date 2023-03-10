@@ -15,9 +15,17 @@ const planSchema = new Schema(
             type: String,
             // required: true
         }],
-        date: {
+        // date: {
+        //     type: Date,
+        //     // required: true
+        // },
+        toDate: {
             type: Date,
-            required: true
+            // required: true
+        },
+        fromDate: {
+            type: Date,
+            // required: true
         },
         destination: {
             type: String,

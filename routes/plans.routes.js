@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const fileUploader = require("../config/cloudinary.config");
 
 const Plan = require("../models/Plan.model");
 const User = require("../models/User.model");
@@ -14,21 +13,14 @@ router.get("/", (req, res, next) => {
         .catch(err => next(err))
 });
 
-router.post("/create", fileUploader.any(), (req, res, next) => {
-    console.log("REQ.FILE", req.file)
-    console.log("REQ.FILES", req.files)
-    console.log("REQ.BODY", req.body)
-    if (!req.file) {
-        next(new Error("No file uploaded!"))
-        return
-    }
 
-    const fileUrl = req.file.path
 
-    const { title, description, date } = req.body
+router.post("/create", (req, res, next) => {
 
+    const { title, description, images, destination } = req.body
     console.log(req.body)
-    Plan.create({ title, description, images: fileUrl, date })
+
+    Plan.create({ title, description, images, destination })
         .then(response => {
             console.log(response)
             res.json({ result: "ok" })
