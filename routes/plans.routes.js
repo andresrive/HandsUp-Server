@@ -14,21 +14,21 @@ router.get("/", (req, res, next) => {
         .catch(err => next(err))
 });
 
+
 router.post("/create", fileUploader.any(), (req, res, next) => {
-    console.log("REQ.FILE", req.file)
     console.log("REQ.FILES", req.files)
     console.log("REQ.BODY", req.body)
-    if (!req.file) {
-        next(new Error("No file uploaded!"))
+    if (!req.files) {
+        next(new Error("No files uploaded!"))
         return
     }
 
-    const fileUrl = req.file.path
+    const uploadedFileUrl = req.files[0].path
 
-    const { title, description, date } = req.body
+    const { title, description, date, destination } = req.body
 
     console.log(req.body)
-    Plan.create({ title, description, images: fileUrl, date })
+    Plan.create({ title, description, date, destination, fileUrl: uploadedFileUrl })
         .then(response => {
             console.log(response)
             res.json({ result: "ok" })
@@ -36,6 +36,7 @@ router.post("/create", fileUploader.any(), (req, res, next) => {
         .catch(err => next(err))
 
 })
+
 
 router.get("/:plansId", (req, res, next) => {
 
