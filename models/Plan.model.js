@@ -5,15 +5,15 @@ const planSchema = new Schema(
     {
         title: {
             type: String,
-            required: [true, "Title is required."],
+            required: true,
         },
         description: {
             type: String,
-            required: [true, "Description is required."]
+            required: true,
         },
         images: [{
             type: String,
-            required: true
+            // required: true
         }],
         date: {
             type: Date,
