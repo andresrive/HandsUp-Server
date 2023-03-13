@@ -15,10 +15,18 @@ const packSchema = new Schema(
             type: String,
             required: true
         }],
-        date: {
+        // date: {
+        //     type: Date,
+        //     default: Date.now,
+        //     required: true
+        // },
+        toDate: {
             type: Date,
-            default: Date.now,
-            required: true
+            // required: true
+        },
+        fromDate: {
+            type: Date,
+            // required: true
         },
         itinerary: {
             type: String,
