@@ -23,10 +23,13 @@ router.put("/profile", isAuthenticated, (req, res, next) => {     //editar
 
   console.log("USER ID!!!!!!", userId)
 
-  const { username, email, images } = req.body
-
-  User.findByIdAndUpdate(userId, { username, email, images }, { new: true })
-    .then(result => res.json(result))
+  const { username, email, avatarUrl } = req.body
+  console.log("REQ BODY: ", req.body)
+  User.findByIdAndUpdate(userId, { username, email, images: avatarUrl }, { new: true })
+    .then(result => {
+      console.log("RESULT: ", result)
+      res.json(result)
+    })
     .catch(err => next(err))
 })
 

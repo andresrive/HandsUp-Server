@@ -17,10 +17,10 @@ router.get("/", (req, res, next) => {
 
 router.post("/create", (req, res, next) => {
 
-    const { title, description, images, destination } = req.body
+    const { title, description, images, fromDate, toDate, destination } = req.body
     console.log(req.body)
 
-    Plan.create({ title, description, images, destination })
+    Plan.create({ title, description, images, fromDate, toDate, destination })
         .then(response => {
             console.log(response)
             res.json({ result: "ok" })
@@ -42,11 +42,11 @@ router.get("/:plansId", (req, res, next) => {
 })
 
 router.put("/:plansId/edit", (req, res, next) => {
-    const { title, description, images, date } = req.body
+    const { title, description, images, toDate, fromDate, destination } = req.body
 
     const { plansId } = req.params
 
-    Plan.findByIdAndUpdate(plansId, { title, description, images, date }, { new: true })
+    Plan.findByIdAndUpdate(plansId, { title, description, images, toDate, fromDate, destination }, { new: true })
         .then(result => res.json(result))
         .catch(err => next(err))
 
