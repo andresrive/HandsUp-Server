@@ -17,6 +17,7 @@ const { isAuthenticated } = require("../middleware/jwt.middleware.js");
 router.get("/", (req,res,next) => {
     Pack.find()
     .populate("author")
+    .populate("participants")
     .then(response => {
         res.json(response)
     })

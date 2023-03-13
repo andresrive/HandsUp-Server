@@ -17,13 +17,13 @@ const packSchema = new Schema(
         }],
         date: {
             type: Date,
-            default: Date.now,
             required: true
         },
-        itinerary: {
+        itinerary: [{
             type: String,
-            required: true
-        },
+            required: true,
+
+        }],
         destination: {
             type: String,
             required: true
@@ -32,14 +32,8 @@ const packSchema = new Schema(
             type: Number,
             required: true,
         },
-        userList: [{
-            type: Schema.Types.ObjectId,
-            ref: "User"
-        }],
-        author: {
-            type: Schema.Types.ObjectId,
-            ref: "User"
-        },
+        participants: [{type: Schema.Types.ObjectId, ref: "User"}],
+        author: {type: Schema.Types.ObjectId, ref: "User"},
     },
     {
         // this second object adds extra properties: `createdAt` and `updatedAt`
