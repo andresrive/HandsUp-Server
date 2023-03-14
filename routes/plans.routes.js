@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const { isAuthenticated } = require("../middleware/jwt.middleware.js");
 
 const Plan = require("../models/Plan.model");
 const User = require("../models/User.model");
@@ -15,15 +16,20 @@ router.get("/", (req, res, next) => {
 
 
 
-router.post("/create", (req, res, next) => {
+router.post("/create", isAuthenticated, (req, res, next) => {
+
+    const userId = req.payload._id
 
     const { title, description, images, fromDate, toDate, destination } = req.body
     console.log(req.body)
 
-    Plan.create({ title, description, images, fromDate, toDate, destination })
+    Plan.create({ title, description, images, fromDate, toDate, destination, author: userId })
         .then(response => {
-            console.log(response)
-            res.json({ result: "ok" })
+            User.findByIdAndUpdate(userId, { $push: { plansMade: response } })
+                .then((response) => {
+                    res.json({ result: "ok" })
+                })
+                .catch(err => next(err))
         })
         .catch(err => next(err))
 
@@ -38,7 +44,27 @@ router.get("/:plansId", (req, res, next) => {
         .populate("author")
         .then(result => res.json(result))
         .catch(err => next(err))
+})
 
+router.post("/:plansId", isAuthenticated, (req, res, next) => {
+    const { plansId } = req.params
+    const { userId } = req.payload._id
+
+    Plan.findById(plansId)
+        .populate("author")
+        .then(response => {
+            User.findByIdAndUpdate(userId, { $push: { plansEnrolled: response } })
+                .then((response) => {
+                    res.json({ result: "ok" })
+                })
+        })
+        .then(response => {
+            Plan.findByIdAndUpdate(plansId, { $push: { participants: response } })
+                .then((response) => {
+                    res.json({ result: "ok" })
+                })
+        })
+        .catch(err => next(err))
 })
 
 router.put("/:plansId/edit", (req, res, next) => {
