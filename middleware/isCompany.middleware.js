@@ -1,5 +1,9 @@
+const { isAuthenticated } = require("./jwt.middleware")
+
+
 const isCompany = (req, res, next) => {
-    if (req.payload._id && req.payload.isCompany) {
+    console.log("Proteger", req.payload)
+    if (req.payload._id && isCompany) {
         next()
     }
     else {
