@@ -2,6 +2,9 @@ const express = require("express");
 const router = express.Router();
 const { isAuthenticated } = require("../middleware/jwt.middleware.js");
 
+const isCompany = require("../middleware/isCompany.middleware.js");
+
+
 const User = require("../models/User.model");
 const Pack = require("../models/Pack.model");
 const Plan = require("../models/Plan.model");
@@ -18,8 +21,9 @@ router.get("/", (req, res, next) => {
 })
 
 //POST CREATED PACK
-router.post("/create", isAuthenticated, (req, res, next) => {
+router.post("/create", isAuthenticated, isCompany, (req, res, next) => {
     const userId = req.payload._id
+    console.log(req.payload)
 
     const { title, description, images, fromDate, toDate, itinerary, destination, price } = req.body
     Pack.create({ title, description, images, fromDate, toDate, itinerary, destination, price })
@@ -45,11 +49,11 @@ router.get("/:packId", (req, res, next) => {
 })
 
 //PUT EDIT PACK
-router.put("/:packId/edit", (req, res, next) => {
+router.put("/:packId/edit" ,isAuthenticated, isCompany,  (req, res, next) => {
     const { packId } = req.params;
-    const { title, description, images, date, itinerary, destination, price } = req.body;
+    const { title, description, images, fromDate,toDate, itinerary, destination, price } = req.body;
 
-    Pack.findByIdAndUpdate(packId, { title, description, images, date, itinerary, destination, price }, { new: true })
+    Pack.findByIdAndUpdate(packId, { title, description, images, fromDate,toDate, itinerary, destination, price }, { new: true })
         .then(result => {
             res.json(result);
         })
@@ -58,7 +62,7 @@ router.put("/:packId/edit", (req, res, next) => {
 })
 
 //DELETE PACK
-router.delete("/:packId/delete", (req, res, next) => {
+router.delete("/:packId/delete", isCompany, (req, res, next) => {
     const { packId } = req.params;
     Pack.findByIdAndDelete(packId)
         .then(response => {

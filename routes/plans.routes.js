@@ -67,6 +67,31 @@ router.post("/:plansId", isAuthenticated, (req, res, next) => {
         .catch(err => next(err))
 })
 
+router.get("/join/:plansId", isAuthenticated, (req,res,next) => {
+    const { plansId } = req.params
+    const { userId } = req.payload._id
+
+    Plan.findById(plansId)
+        .populate("author")
+        .then(response => {
+            User.findByIdAndUpdate(userId, { $push: { plansEnrolled: response } })
+            /* .then((response) => {
+                    res.json({ result: "ok" })
+                }) */
+        })
+        .then(response => {
+            Plan.findByIdAndUpdate(plansId, { $push: { participants: response } })
+                /* .then((response) => {
+                    res.json({ result: "ok" })
+                }) */
+        })
+        .then(response => {
+            res.json(response)
+        })
+        .catch(err => next(err))
+
+})
+
 router.put("/:plansId/edit", (req, res, next) => {
     const { title, description, images, toDate, fromDate, destination } = req.body
 
