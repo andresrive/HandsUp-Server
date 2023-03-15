@@ -13,19 +13,15 @@ const planSchema = new Schema(
         },
         images: [{
             type: String,
-            // required: true
+            required: true
         }],
-        // date: {
-        //     type: Date,
-        //     // required: true
-        // },
         toDate: {
-            type: Date,
-            // required: true
+            type: String,
+            required: true
         },
         fromDate: {
-            type: Date,
-            // required: true
+            type: String,
+            required: true
         },
         destination: {
             type: String,

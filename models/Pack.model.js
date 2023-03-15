@@ -15,18 +15,13 @@ const packSchema = new Schema(
             type: String,
             required: true
         }],
-        // date: {
-        //     type: Date,
-        //     default: Date.now,
-        //     required: true
-        // },
         toDate: {
-            type: Date,
-            // required: true
+            type: String,
+            required: true
         },
         fromDate: {
-            type: Date,
-            // required: true
+            type: String,
+            required: true
         },
         itinerary: {
             type: String,
@@ -40,7 +35,7 @@ const packSchema = new Schema(
             type: Number,
             required: true,
         },
-        userList: [{
+        participants: [{
             type: Schema.Types.ObjectId,
             ref: "User"
         }],

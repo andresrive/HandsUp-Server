@@ -22,7 +22,7 @@ router.post("/create", isAuthenticated, (req, res, next) => {
     const userId = req.payload._id
 
     const { title, description, images, fromDate, toDate, itinerary, destination, price } = req.body
-    Pack.create({ title, description, images, fromDate, toDate, itinerary, destination, price })
+    Pack.create({ title, description, images, fromDate, toDate, itinerary, destination, price, author: userId })
         .then(response => {
             User.findByIdAndUpdate(userId, { $push: { packsMade: response } })
                 .then((response) => {
@@ -41,8 +41,31 @@ router.get("/:packId", (req, res, next) => {
             return res.json(response)
 
         })
+
         .catch(err => console.log(err))
 })
+
+router.post("/:packId", isAuthenticated, (req, res, next) => {
+    const { packId } = req.params
+    const { userId } = req.payload._id
+
+    Pack.findById(packId)
+        .populate("author")
+        .then(response => {
+            User.findByIdAndUpdate(userId, { $push: { packsEnrolled: response } })
+                .then((response) => {
+                    res.json({ result: "ok" })
+                })
+        })
+        .then(response => {
+            Pack.findByIdAndUpdate(packId, { $push: { participants: response } })
+                .then((response) => {
+                    res.json({ result: "ok" })
+                })
+        })
+        .catch(err => next(err))
+})
+
 
 //PUT EDIT PACK
 router.put("/:packId/edit", (req, res, next) => {
