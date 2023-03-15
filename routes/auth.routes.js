@@ -45,7 +45,7 @@ router.post("/signup", (req, res, next) => {
       const user = { email, username, _id };
       res.status(201).json({ user: user });
     })
-    .catch((err) => next(err)); 
+    .catch((err) => next(err));
 });
 
 router.post("/login", (req, res, next) => {
@@ -64,8 +64,8 @@ router.post("/login", (req, res, next) => {
       const passwordCorrect = bcrypt.compareSync(password, foundUser.password);
 
       if (passwordCorrect) {
-        const { _id, email, username } = foundUser;
-        const payload = { _id, email, username };
+        const { _id, isAdmin, isCompany } = foundUser;
+        const payload = { _id, isAdmin, isCompany };
         const authToken = jwt.sign(payload, process.env.TOKEN_SECRET, {
           algorithm: "HS256",
           expiresIn: "6h",
