@@ -93,6 +93,7 @@ router.get("/join/:plansId", isAuthenticated, (req,res,next) => {
 })
 
 router.put("/:plansId/edit", (req, res, next) => {
+    console.log("REQ. BODY EDIT:", req.body)
     const { title, description, images, toDate, fromDate, destination } = req.body
 
     const { plansId } = req.params
