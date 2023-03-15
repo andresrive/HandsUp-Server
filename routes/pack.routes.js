@@ -47,9 +47,9 @@ router.get("/:packId", (req, res, next) => {
 //PUT EDIT PACK
 router.put("/:packId/edit", (req, res, next) => {
     const { packId } = req.params;
-    const { title, description, images, date, itinerary, destination, price } = req.body;
+    const { title, description, images, fromDate, toDate, itinerary, destination, price } = req.body;
 
-    Pack.findByIdAndUpdate(packId, { title, description, images, date, itinerary, destination, price }, { new: true })
+    Pack.findByIdAndUpdate(packId, { title, description, images, fromDate, toDate, itinerary, destination, price }, { new: true })
         .then(result => {
             res.json(result);
         })
