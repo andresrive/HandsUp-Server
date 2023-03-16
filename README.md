@@ -73,7 +73,6 @@ const packSchema = new Schema({
   description: { type: String, required: true },
   date: { type: Date, default: Date.now, required: true },
   images: [{ type: String, required: true }],
-  itinerary: { type: String, required: true },
   destination: { type: String, required: true },
   price: { type: String, required: true },
   author: { type: Schema.Types.ObjectId, ref: "User" },

@@ -27,11 +27,6 @@ const packSchema = new Schema(
             type: String,
             required: true
         },
-        itinerary: [{
-            type: String,
-            required: true,
-
-        }],
         destination: {
             type: String,
             required: true
@@ -44,7 +39,7 @@ const packSchema = new Schema(
             type: Schema.Types.ObjectId,
             ref: "User"
         }],
-        
+
     },
     {
         // this second object adds extra properties: `createdAt` and `updatedAt`
