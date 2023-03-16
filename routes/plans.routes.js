@@ -23,14 +23,14 @@ router.post("/create", isAuthenticated, (req, res, next) => {
     const { title, description, images, fromDate, toDate, destination } = req.body
 
     Plan.create({ title, description, images, fromDate, toDate, destination, author: userId })
-    .then(response => {
+        .then(response => {
             User.findByIdAndUpdate(userId, { $push: { plansMade: response } })
                 .then((response) => {
                     res.json({ result: "ok" })
                 })
                 .catch(err => next(err))
-    })
-    .catch(err => next(err))
+        })
+        .catch(err => next(err))
 
 })
 
@@ -52,40 +52,16 @@ router.post("/:plansId/join", isAuthenticated, (req, res, next) => {
     Plan.findById(plansId)
         .then(response => {
             console.log(response.id)
-            return(User.findByIdAndUpdate(userId, { $push: { plansEnrolled: response} }))
+            return (User.findByIdAndUpdate(userId, { $push: { plansEnrolled: response } }))
         })
         .then(response => {
             console.log(response)
-            return(Plan.findByIdAndUpdate(plansId, { $push: { participants: response } }))
-                
+            return (Plan.findByIdAndUpdate(plansId, { $push: { participants: response } }))
+
         })
         .catch(err => next(err))
 })
 
-/* router.get("/join/:plansId", isAuthenticated, (req,res,next) => {
-    const { plansId } = req.params
-    const { userId } = req.payload._id
-
-    Plan.findById(plansId)
-        .populate("author")
-        .then(response => {
-            User.findByIdAndUpdate(userId, { $push: { plansEnrolled: response } })
-            .then((response) => {
-                    res.json({ result: "ok" })
-                }) 
-        })
-        .then(response => {
-            Plan.findByIdAndUpdate(plansId, { $push: { participants: response } })
-                 .then((response) => {
-                    res.json({ result: "ok" })
-                }) 
-        })
-        .then(response => {
-            res.json(response)
-        })
-        .catch(err => next(err))
-
-}) */
 
 router.put("/:plansId/edit", isAuthenticated, (req, res, next) => {
     console.log("REQ. BODY EDIT:", req.body)
@@ -99,7 +75,7 @@ router.put("/:plansId/edit", isAuthenticated, (req, res, next) => {
 
 })
 
-router.delete("/:plansId/delete",isAuthenticated, (req, res, next) => {
+router.delete("/:plansId/delete", isAuthenticated, (req, res, next) => {
     const { plansId } = req.params
 
     Plan.findByIdAndDelete(plansId)
