@@ -9,10 +9,8 @@ const isCompany = (req, res, next) => {
         next()
     }
     else {
-        res.render("You can't perform that action") //CAMBIAR ESTO
+        res.render("You can't perform that action")
     }
 }
 
 module.exports = isCompany
-
-//PARA PONER EN CREATE DE PLAN
