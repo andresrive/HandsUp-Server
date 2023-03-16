@@ -9,7 +9,7 @@ const isCompany = (req, res, next) => {
         next()
     }
     else {
-        res.render("You can't perform that action")
+        res.redirect("/")
     }
 }
 

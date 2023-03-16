@@ -1,4 +1,5 @@
 const express = require("express");
+const canEdit = require("../middleware/edit.middleware.js");
 const router = express.Router();
 const { isAuthenticated } = require("../middleware/jwt.middleware.js");
 
@@ -6,11 +7,14 @@ const Plan = require("../models/Plan.model");
 const User = require("../models/User.model");
 
 
+
+
 router.get("/", (req, res, next) => {
     Plan.find()
         .then(results => res.json(results))
         .catch(err => next(err))
 });
+
 
 
 router.post("/create", isAuthenticated, (req, res, next) => {
@@ -49,12 +53,7 @@ router.post("/:plansId/join", isAuthenticated, (req, res, next) => {
     Plan.findById(plansId)
         .then(response => {
             console.log(response.id)
-            if(response.id.includes(plansEnrolled)){
-                return 
-            }
-            else{
-                return(User.findByIdAndUpdate(userId, { $push: { plansEnrolled: response} }))
-            }
+            return(User.findByIdAndUpdate(userId, { $push: { plansEnrolled: response} }))
         })
         .then(response => {
             console.log(response)
@@ -64,7 +63,9 @@ router.post("/:plansId/join", isAuthenticated, (req, res, next) => {
         .catch(err => next(err))
 })
 
-router.put("/:plansId/edit", isAuthenticated, (req, res, next) => {
+
+
+router.put("/:plansId/edit", isAuthenticated, canEdit, (req, res, next) => {
     console.log("REQ. BODY EDIT:", req.body)
     const { title, description, images, toDate, fromDate, destination } = req.body
     console.log("req.payload", req.payload)
@@ -76,7 +77,7 @@ router.put("/:plansId/edit", isAuthenticated, (req, res, next) => {
 
 })
 
-router.delete("/:plansId/delete",isAuthenticated, (req, res, next) => {
+router.delete("/:plansId/delete", isAuthenticated, canEdit, (req, res, next) => {
     const { plansId } = req.params
 
     Plan.findByIdAndDelete(plansId)
