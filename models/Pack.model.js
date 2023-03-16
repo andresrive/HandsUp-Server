@@ -15,6 +15,10 @@ const packSchema = new Schema(
             type: String,
             required: true
         }],
+        author: {
+            type: Schema.Types.ObjectId,
+            ref: "User"
+        },
         toDate: {
             type: String,
             required: true
@@ -40,10 +44,7 @@ const packSchema = new Schema(
             type: Schema.Types.ObjectId,
             ref: "User"
         }],
-        author: {
-            type: Schema.Types.ObjectId,
-            ref: "User"
-        },
+        
     },
     {
         // this second object adds extra properties: `createdAt` and `updatedAt`
