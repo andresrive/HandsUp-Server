@@ -49,14 +49,15 @@ router.post("/:plansId/join", isAuthenticated, (req, res, next) => {
     const { plansId } = req.params
     const userId = req.payload._id
 
+    const enrolled = req.payload.plansEnrolled
+    console.log(enrolled)
+
     Plan.findById(plansId)
-    .populate("participants")
+        .populate("participants")
         .then(response => {
-            console.log(response.id)
             return (User.findByIdAndUpdate(userId, { $push: { plansEnrolled: response } }))
         })
         .then(response => {
-            console.log(response)
             return (Plan.findByIdAndUpdate(plansId, { $push: { participants: response } }))
 
         })
