@@ -1,4 +1,5 @@
 const express = require("express");
+const canEdit = require("../middleware/edit.middleware.js");
 const router = express.Router();
 const { isAuthenticated } = require("../middleware/jwt.middleware.js");
 
@@ -65,7 +66,7 @@ router.post("/:plansId/join", isAuthenticated, (req, res, next) => {
 })
 
 
-router.put("/:plansId/edit", isAuthenticated, (req, res, next) => {
+router.put("/:plansId/edit", isAuthenticated, canEdit, (req, res, next) => {
     console.log("REQ. BODY EDIT:", req.body)
     const { title, description, images, toDate, fromDate, destination } = req.body
     console.log("req.payload", req.payload)
@@ -77,7 +78,7 @@ router.put("/:plansId/edit", isAuthenticated, (req, res, next) => {
 
 })
 
-router.delete("/:plansId/delete", isAuthenticated, (req, res, next) => {
+router.delete("/:plansId/delete", isAuthenticated, canEdit, (req, res, next) => {
     const { plansId } = req.params
 
     Plan.findByIdAndDelete(plansId)
