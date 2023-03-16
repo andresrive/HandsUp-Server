@@ -41,10 +41,8 @@ router.post("/create", isAuthenticated, (req, res, next) => {
 //GET ONE PACK
 router.get("/:packId", (req, res, next) => {
     const { packId } = req.params
-    /* console.log(packId) */
-    Pack.findById(packId)
+    Pack.findById(packId)     
         .then(response => {
-            /* console.log(response) */
             return res.json(response)
         })
         .catch(err => console.log(err))

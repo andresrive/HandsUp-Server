@@ -1,4 +1,5 @@
 const express = require("express");
+const canEdit = require("../middleware/edit.middleware.js");
 const router = express.Router();
 const { isAuthenticated } = require("../middleware/jwt.middleware.js");
 
@@ -40,7 +41,7 @@ router.get("/:plansId", (req, res, next) => {
     const { plansId } = req.params
 
     Plan.findById(plansId)
-        .populate("author")
+        .populate("author participants")
         .then(result => res.json(result))
         .catch(err => next(err))
 })
@@ -49,13 +50,15 @@ router.post("/:plansId/join", isAuthenticated, (req, res, next) => {
     const { plansId } = req.params
     const userId = req.payload._id
 
+    const enrolled = req.payload.plansEnrolled
+    console.log(enrolled)
+
     Plan.findById(plansId)
+        .populate("participants")
         .then(response => {
-            console.log(response.id)
             return (User.findByIdAndUpdate(userId, { $push: { plansEnrolled: response } }))
         })
         .then(response => {
-            console.log(response)
             return (Plan.findByIdAndUpdate(plansId, { $push: { participants: response } }))
 
         })
@@ -63,7 +66,7 @@ router.post("/:plansId/join", isAuthenticated, (req, res, next) => {
 })
 
 
-router.put("/:plansId/edit", isAuthenticated, (req, res, next) => {
+router.put("/:plansId/edit", isAuthenticated, canEdit, (req, res, next) => {
     console.log("REQ. BODY EDIT:", req.body)
     const { title, description, images, toDate, fromDate, destination } = req.body
     console.log("req.payload", req.payload)
@@ -75,7 +78,7 @@ router.put("/:plansId/edit", isAuthenticated, (req, res, next) => {
 
 })
 
-router.delete("/:plansId/delete", isAuthenticated, (req, res, next) => {
+router.delete("/:plansId/delete", isAuthenticated, canEdit, (req, res, next) => {
     const { plansId } = req.params
 
     Plan.findByIdAndDelete(plansId)
