@@ -40,7 +40,7 @@ router.get("/:plansId", (req, res, next) => {
     const { plansId } = req.params
 
     Plan.findById(plansId)
-        .populate("author")
+        .populate("author participants")
         .then(result => res.json(result))
         .catch(err => next(err))
 })
@@ -50,6 +50,7 @@ router.post("/:plansId/join", isAuthenticated, (req, res, next) => {
     const userId = req.payload._id
 
     Plan.findById(plansId)
+    .populate("participants")
         .then(response => {
             console.log(response.id)
             return (User.findByIdAndUpdate(userId, { $push: { plansEnrolled: response } }))
