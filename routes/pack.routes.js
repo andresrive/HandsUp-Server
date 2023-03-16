@@ -26,8 +26,8 @@ router.post("/create", isAuthenticated, (req, res, next) => {
     const userId = req.payload._id
     console.log(req.payload)
 
-    const { title, description, images, fromDate, toDate, itinerary, destination, price } = req.body
-    Pack.create({ title, description, images, fromDate, toDate, itinerary, destination, price})
+    const { title, description, images, fromDate, toDate, destination, price } = req.body
+    Pack.create({ title, description, images, fromDate, toDate, destination, price })
         .then(response => {
             User.findByIdAndUpdate(userId, { $push: { packsMade: response } })
                 .then((response) => {
@@ -56,12 +56,12 @@ router.post("/:packId/join", isAuthenticated, (req, res, next) => {
     Plan.findById(packId)
         .then(response => {
             console.log(response.id)
-            return(User.findByIdAndUpdate(userId, { $push: { packsEnrolled: response} }))
+            return (User.findByIdAndUpdate(userId, { $push: { packsEnrolled: response } }))
         })
         .then(response => {
             console.log(response)
-            return(Pack.findByIdAndUpdate(packId, { $push: { participants: response } }))
-                
+            return (Pack.findByIdAndUpdate(packId, { $push: { participants: response } }))
+
         })
         .catch(err => next(err))
 })
@@ -70,9 +70,9 @@ router.post("/:packId/join", isAuthenticated, (req, res, next) => {
 //PUT EDIT PACK
 router.put("/:packId/edit", isAuthenticated, isCompany, (req, res, next) => {
     const { packId } = req.params;
-    const { title, description, images, fromDate, toDate, itinerary, destination, price } = req.body;
+    const { title, description, images, fromDate, toDate, destination, price } = req.body;
 
-    Pack.findByIdAndUpdate(packId, { title, description, images, fromDate, toDate, itinerary, destination, price })
+    Pack.findByIdAndUpdate(packId, { title, description, images, fromDate, toDate, destination, price })
         .then(result => {
             res.json(result);
         })

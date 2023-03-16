@@ -24,14 +24,14 @@ router.post("/create", isAuthenticated, (req, res, next) => {
     const { title, description, images, fromDate, toDate, destination } = req.body
 
     Plan.create({ title, description, images, fromDate, toDate, destination, author: userId })
-    .then(response => {
+        .then(response => {
             User.findByIdAndUpdate(userId, { $push: { plansMade: response } })
                 .then((response) => {
                     res.json({ result: "ok" })
                 })
                 .catch(err => next(err))
-    })
-    .catch(err => next(err))
+        })
+        .catch(err => next(err))
 
 })
 
@@ -41,7 +41,7 @@ router.get("/:plansId", (req, res, next) => {
     const { plansId } = req.params
 
     Plan.findById(plansId)
-        .populate("author")
+        .populate("author participants")
         .then(result => res.json(result))
         .catch(err => next(err))
 })
@@ -50,19 +50,20 @@ router.post("/:plansId/join", isAuthenticated, (req, res, next) => {
     const { plansId } = req.params
     const userId = req.payload._id
 
+    const enrolled = req.payload.plansEnrolled
+    console.log(enrolled)
+
     Plan.findById(plansId)
+        .populate("participants")
         .then(response => {
-            console.log(response.id)
-            return(User.findByIdAndUpdate(userId, { $push: { plansEnrolled: response} }))
+            return (User.findByIdAndUpdate(userId, { $push: { plansEnrolled: response } }))
         })
         .then(response => {
-            console.log(response)
-            return(Plan.findByIdAndUpdate(plansId, { $push: { participants: response } }))
-                
+            return (Plan.findByIdAndUpdate(plansId, { $push: { participants: response } }))
+
         })
         .catch(err => next(err))
 })
-
 
 
 router.put("/:plansId/edit", isAuthenticated, canEdit, (req, res, next) => {
