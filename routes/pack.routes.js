@@ -51,31 +51,26 @@ router.get("/:packId", (req, res, next) => {
 })
 
 //POST TO JOIN IN A TRIP
-router.get("/:packId/join", isAuthenticated, (req, res, next) => {
+router.post("/:packId/join", isAuthenticated, (req, res, next) => {
     const { packId } = req.params
-    const { userId } = req.payload._id
-    /* console.log("payload post pack:", userId) */
-    Pack.findById(packId)
-        .populate("author")
+    const userId = req.payload._id
+
+    Plan.findById(packId)
         .then(response => {
-            console.log("Ppulate?", response)
-            User.findByIdAndUpdate(userId, { $push: { packsEnrolled: response } })
-                .then((response) => {
-                    res.json({ result: "ok" })
-                })
+            console.log(response.id)
+            return(User.findByIdAndUpdate(userId, { $push: { packsEnrolled: response} }))
         })
         .then(response => {
-            Pack.findByIdAndUpdate(packId, { $push: { participants: response } })
-                .then((response) => {
-                    res.json({ result: "ok" })
-                })
+            console.log(response)
+            return(Pack.findByIdAndUpdate(packId, { $push: { participants: response } }))
+                
         })
         .catch(err => next(err))
 })
 
 
 //PUT EDIT PACK
-router.put("/:packId/edit",isCompany, isAuthenticated, (req, res, next) => {
+router.put("/:packId/edit", isAuthenticated, isCompany, (req, res, next) => {
     const { packId } = req.params;
     const { title, description, images, fromDate, toDate, itinerary, destination, price } = req.body;
 
