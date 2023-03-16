@@ -25,7 +25,6 @@ module.exports = (app) => {
   app.use(
     cors({
       origin: [FRONTEND_URL],
-      credentials: true
     })
   );
 
