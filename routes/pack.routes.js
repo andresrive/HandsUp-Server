@@ -68,7 +68,7 @@ router.post("/:packId/join", isAuthenticated, (req, res, next) => {
 
 
 //PUT EDIT PACK
-router.put("/:packId/edit", isAuthenticated, isCompany, (req, res, next) => {
+router.put("/:packId/edit", isAuthenticated, (req, res, next) => {
     const { packId } = req.params;
     const { title, description, images, fromDate, toDate, destination, price } = req.body;
 
@@ -81,7 +81,7 @@ router.put("/:packId/edit", isAuthenticated, isCompany, (req, res, next) => {
 })
 
 //DELETE PACK
-router.delete("/:packId/delete", isAuthenticated, isCompany, (req, res, next) => {
+router.delete("/:packId/delete", isAuthenticated,  (req, res, next) => {
     const { packId } = req.params;
     Pack.findByIdAndDelete(packId)
         .then(response => {
