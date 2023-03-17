@@ -66,22 +66,24 @@ router.post("/:plansId/join", isAuthenticated, (req, res, next) => {
 })
 
 
-router.put("/:plansId/edit", isAuthenticated, canEdit, (req, res, next) => {
+router.put("/:plansId/edit", isAuthenticated, (req, res, next) => {
     console.log("REQ. BODY EDIT:", req.body)
     const { title, description, images, toDate, fromDate, destination } = req.body
     console.log("req.payload", req.payload)
     const { plansId } = req.params
 
     Plan.findByIdAndUpdate(plansId, { title, description, images, toDate, fromDate, destination }, { new: true })
+        .populate("author")
         .then(result => res.json(result))
         .catch(err => next(err))
 
 })
 
-router.delete("/:plansId/delete", isAuthenticated, canEdit, (req, res, next) => {
+router.delete("/:plansId/delete", isAuthenticated, (req, res, next) => {
     const { plansId } = req.params
 
     Plan.findByIdAndDelete(plansId)
+        .populate("author")
         .then(response => {
             res.json({ result: "ok" })
         })

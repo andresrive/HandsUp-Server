@@ -1,5 +1,9 @@
 const canEdit = (req, res, next) => {
-    if (req.payload._id === req.body.author._id || req.payload.isAdmin) {
+
+    const  plans  = req.params.plansId
+
+    if (req.payload._id === plans.author._id || req.payload.isAdmin) {
+        
         next()
     }
     
